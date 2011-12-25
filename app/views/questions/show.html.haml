@@ -1,7 +1,11 @@
-%p
-  = @question.phrase
-%ul
-  %li
-    = link_to( 'Yes', @question.yes )
-  %li
-    = link_to( 'No', @question.no )
+- if @question.phrase.present?
+  %p= @question.phrase
+  %ul
+    %li= link_to( 'Yes', @question.yes )
+    %li= link_to( 'No', @question.no )
+- else
+  %p= "I think it's a #{ @question.animal }"
+  %p Is that correct?
+  %ul
+    %li= link_to( 'Yes', url_for( :controller => 'games', :action => :play_again ) )
+    %li= link_to( 'No', edit_question_url( @question ) )

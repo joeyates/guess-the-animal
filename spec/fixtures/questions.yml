@@ -1,8 +1,8 @@
-lizard_question:
+lizard:
   animal: 'Lizard'
-cat_question:
+cat:
   animal: 'Cat'
-root_question:
+root:
   phrase: 'Is it a reptile?'
-  'yes': lizard_question
-  'no': cat_question
+  'yes': lizard
+  'no': cat
