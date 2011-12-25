@@ -61,15 +61,17 @@ class Question < ActiveRecord::Base
 
   def insert_question( phrase, new_animal )
     old_animal = animal
-    # Temporarily change name to allow us to create a new question
-    # TODO: find a more elegant way to do this
-    update_attributes!( :animal => self.class.unique_animal )
-    yes = Question.create!( :animal => new_animal )
-    no  = Question.create!( :animal => old_animal )
-    update_attributes!( :phrase => phrase,
-                        :animal => nil,
-                        :yes    => yes,
-                        :no     => no )
+    Question.connection.transaction do
+      # Temporarily change name to allow us to create a new question
+      # TODO: find a more elegant way to do this
+      update_attributes!( :animal => self.class.unique_animal )
+      yes = Question.create!( :animal => new_animal )
+      no  = Question.create!( :animal => old_animal )
+      update_attributes!( :phrase => phrase,
+                          :animal => nil,
+                          :yes    => yes,
+                          :no     => no )
+    end
   end
 
   def self.unique_animal

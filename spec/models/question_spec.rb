@@ -86,8 +86,6 @@ describe Question do
                                                       /Animal has already been added/ )
       end
 
-      it 'should have a source question if set'
-
     end
 
     context "#yes" do
@@ -174,7 +172,14 @@ describe Question do
                                                       /Phrase should be a question/ )
     end
 
-    it 'should leave data unaltered on errors'
+    it 'should leave data unaltered on errors' do
+      begin
+        @q.insert_question( 'Has it got horns', 'Goat' )
+      rescue ActiveRecord::RecordInvalid => e
+        q = Question.find( @q.id )
+        q.animal.             should     == 'Dog'
+      end
+    end
 
     it 'should make supplied #animal the #yes answer' do
       @q.insert_question( 'Has it got horns?', 'Goat' )
