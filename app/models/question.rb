@@ -1,4 +1,7 @@
 class Question < ActiveRecord::Base
+
+  FIRST_PHRASE = 'Is it a reptile?'
+
   belongs_to :yes, :class_name => 'Question'
   belongs_to :no,  :class_name => 'Question'
 
@@ -57,6 +60,23 @@ class Question < ActiveRecord::Base
     end
   end
 
+  # Class methods
+
+  def self.root
+    find_by_phrase( FIRST_PHRASE )
+  end
+
+  def self.unique_animal
+    ( 'A' .. 'Z' ).to_a.each do | name |
+      while name.length <= 20
+        return name if find_by_animal( name ) == nil
+        name += 'a'
+      end
+    end
+
+    raise 'All generable names exist'
+  end
+
   # Operations
 
   def insert_question( phrase, new_animal )
@@ -72,17 +92,6 @@ class Question < ActiveRecord::Base
                           :yes    => yes,
                           :no     => no )
     end
-  end
-
-  def self.unique_animal
-    ( 'A' .. 'Z' ).to_a.each do | name |
-      while name.length <= 20
-        return name if find_by_animal( name ) == nil
-        name += 'a'
-      end
-    end
-
-    raise 'All generable names exist'
   end
 
 end

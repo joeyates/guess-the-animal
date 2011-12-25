@@ -18,8 +18,8 @@ describe Question do
 
       it 'should be settable' do
         dog = Question.create!( :animal => 'Dog' )
-        cat = Question.create!( :animal => 'Cat' )
-        q = Question.create!( :phrase => 'Does it bark?', :yes => dog, :no => cat )
+        rat = Question.create!( :animal => 'Rat' )
+        q = Question.create!( :phrase => 'Does it bark?', :yes => dog, :no => rat )
 
         q.yes.should     == dog
       end
@@ -36,10 +36,10 @@ describe Question do
 
       it 'should be settable' do
         dog = Question.create!( :animal => 'Dog' )
-        cat = Question.create!( :animal => 'Cat' )
-        q  = Question.create!( :phrase => 'Does it bark?', :yes => dog, :no => cat )
+        rat = Question.create!( :animal => 'Rat' )
+        q  = Question.create!( :phrase => 'Does it bark?', :yes => dog, :no => rat )
 
-        q.no.should     == cat
+        q.no.should     == rat
       end
 
       it "is nullable" do
@@ -65,10 +65,10 @@ describe Question do
 
       it 'should be a question' do
         dog = Question.create!( :animal => 'Dog' )
-        cat = Question.create!( :animal => 'Cat' )
+        rat = Question.create!( :animal => 'Rat' )
 
         expect do
-          Question.create!( :phrase => 'Not a question', :yes => dog, :no => cat )
+          Question.create!( :phrase => 'Not a question', :yes => dog, :no => rat )
         end.                   to        raise_error( ActiveRecord::RecordInvalid,
                                                       /Phrase should be a question/ )
       end
@@ -128,6 +128,14 @@ describe Question do
                                                       /No should not be set if yes is not set/ )
       end
 
+    end
+
+  end
+
+  context '.root' do
+
+    it 'should find the Question with the FIRST_PHRASE' do
+      Question.root.phrase.    should     == Question::FIRST_PHRASE
     end
 
   end
