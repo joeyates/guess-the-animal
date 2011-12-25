@@ -77,6 +77,12 @@ class Question < ActiveRecord::Base
     raise 'All generable names exist'
   end
 
+  # Tests
+
+  def final?
+    animal.present?
+  end
+
   # Operations
 
   def insert_question( phrase, new_animal )

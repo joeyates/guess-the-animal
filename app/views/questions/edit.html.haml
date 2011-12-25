@@ -1,0 +1,5 @@
+%p I thought it was a #{ @original_question.animal }
+%p What animal was it?
+= form_for @question, :url => { :action => :new_animal, :id => @question }, :method => :post do |f|
+  = f.text_field :animal
+  = f.submit 'Continue'

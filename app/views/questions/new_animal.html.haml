@@ -1,0 +1,5 @@
+%p What question should I ask to tell the difference between a #{ @question.animal } and a #{ @original_question.animal }?
+= form_for @question, :url => { :action => :phrase, :id => @question }, :method => :post do |f|
+  = f.hidden_field :animal
+  = f.text_field :phrase
+  = f.submit 'Save'

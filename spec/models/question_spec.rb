@@ -163,13 +163,32 @@ describe Question do
 
   end
 
+  context '#final?' do
+
+    before :each do
+      @root = questions( :root )
+      @cat = questions( :cat )
+    end
+
+    it 'should be true when animal is set' do
+      @cat.animal.            should     be_present
+      @cat.final?.            should     be_true
+    end
+
+    it 'should be false when animal is not set' do
+      @root.animal.           should_not be_present
+      @root.final?.           should     be_false
+    end
+
+  end
+
   context '#insert_question' do
 
     before :each do
       @q = Question.create!( :animal => 'Dog' )
     end
 
-    it 'should succeed give valid data' do
+    it 'should succeed given valid data' do
       expect do
         @q.insert_question( 'Has it got horns?', 'Goat' )
       end.                    to_not     raise_error
