@@ -86,6 +86,8 @@ describe Question do
                                                       /Animal has already been added/ )
       end
 
+      it 'should have a source question if set'
+
     end
 
     context "#yes" do
@@ -128,6 +130,68 @@ describe Question do
                                                       /No should not be set if yes is not set/ )
       end
 
+    end
+
+  end
+
+  context '.unique_animal' do
+
+    it 'should return a unique animal name' do
+      name = Question.unique_animal
+
+      Question.find_by_animal( name ).
+                               should     be_nil
+    end
+
+    it 'should raise an error if all generable names exist' do
+      Question.                should_receive( :find_by_animal ).
+                               any_number_of_times.
+                               and_return( 'x' )
+
+      expect do
+        Question.unique_animal
+      end.                     to        raise_error( RuntimeError, /All generable names exist/ )
+    end
+
+  end
+
+  context '#insert_question' do
+
+    before :each do
+      @q = Question.create!( :animal => 'Dog' )
+    end
+
+    it 'should succeed give valid data' do
+      expect do
+        @q.insert_question( 'Has it got horns?', 'Goat' )
+      end.                    to_not     raise_error
+    end
+
+    it 'should trigger validation of phrase' do
+      expect do
+        @q.insert_question( 'Has it got horns', 'Goat' )
+      end.                    should     raise_error( ActiveRecord::RecordInvalid,
+                                                      /Phrase should be a question/ )
+    end
+
+    it 'should leave data unaltered on errors'
+
+    it 'should make supplied #animal the #yes answer' do
+      @q.insert_question( 'Has it got horns?', 'Goat' )
+
+      @q.yes.animal.          should     == 'Goat'
+    end
+
+    it 'should move #animal to #no' do
+      @q.insert_question( 'Has it got horns?', 'Goat' )
+
+      @q.no.animal.           should     == 'Dog'
+    end
+
+    it 'should nullify #animal' do
+      @q.insert_question( 'Has it got horns?', 'Goat' )
+
+      @q.animal.              should     be_nil
     end
 
   end
