@@ -11,15 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111225125040) do
+ActiveRecord::Schema.define(:version => 20111225135624) do
 
   create_table "questions", :force => true do |t|
     t.text     "phrase"
-    t.integer  "yes_question_id"
-    t.integer  "no_question_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "animal"
+    t.integer  "yes_id"
+    t.integer  "no_id"
   end
 
 end

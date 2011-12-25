@@ -14,38 +14,38 @@ describe Question do
 
     end
 
-    context "#yes_question" do
+    context "#yes" do
 
       it 'should be settable' do
         dog = Question.create!( :animal => 'Dog' )
         cat = Question.create!( :animal => 'Cat' )
-        q = Question.create!( :phrase => 'Does it bark?', :yes_question => dog, :no_question => cat )
+        q = Question.create!( :phrase => 'Does it bark?', :yes => dog, :no => cat )
 
-        q.yes_question.should     == dog
+        q.yes.should     == dog
       end
 
       it "is nullable" do
         q = Question.create!( :animal => 'Dog' )
 
-        q.yes_question.should     be_nil
+        q.yes.should     be_nil
       end
 
     end
 
-    context "#no_question" do
+    context "#no" do
 
       it 'should be settable' do
         dog = Question.create!( :animal => 'Dog' )
         cat = Question.create!( :animal => 'Cat' )
-        q  = Question.create!( :phrase => 'Does it bark?', :yes_question => dog, :no_question => cat )
+        q  = Question.create!( :phrase => 'Does it bark?', :yes => dog, :no => cat )
 
-        q.no_question.should     == cat
+        q.no.should     == cat
       end
 
       it "is nullable" do
         q = Question.create!( :animal => 'Dog' )
 
-        q.no_question.should     be_nil
+        q.no.should     be_nil
       end
 
     end
@@ -68,7 +68,7 @@ describe Question do
         cat = Question.create!( :animal => 'Cat' )
 
         expect do
-          Question.create!( :phrase => 'Not a question', :yes_question => dog, :no_question => cat )
+          Question.create!( :phrase => 'Not a question', :yes => dog, :no => cat )
         end.                   to        raise_error( ActiveRecord::RecordInvalid,
                                                       /Phrase should be a question/ )
       end
@@ -88,44 +88,44 @@ describe Question do
 
     end
 
-    context "#yes_question" do
+    context "#yes" do
 
-      it "must only be set together with #no_question" do
+      it "must only be set together with #no" do
         yes = Question.create!( :animal => 'Dog' )
-        q = Question.new( :phrase => 'Foo' )
-        q.yes_question = yes
+        q = Question.new( :phrase => 'Does it bark?' )
+        q.yes = yes
 
         expect do
           q.save!
         end.                   to        raise_error( ActiveRecord::RecordInvalid,
-                                                      /No question should be set if yes question is set/ )
+                                                      /No should be set if yes is set/ )
       end
 
-      it 'should be different to the #no_question' do
+      it 'should be different to the #no' do
         q1 = Question.create!( :animal => 'Dog' )
-        q = Question.new( :phrase => 'Foo' )
-        q.yes_question = q1
-        q.no_question  = q1
+        q = Question.new( :phrase => 'Does it bark?' )
+        q.yes = q1
+        q.no  = q1
 
         expect do
           q.save!
         end.                   to        raise_error( ActiveRecord::RecordInvalid,
-                                                      /Yes question should be different to no question/ )
+                                                      /Yes should be different to no/ )
       end
 
     end
 
-    context "#no_question" do
+    context "#no" do
 
-      it "must only be set together with #yes_question" do
+      it "must only be set together with #yes" do
         no = Question.create!( :animal => 'Dog' )
-        q = Question.new( :phrase => 'Foo' )
-        q.no_question = no
+        q = Question.new( :phrase => 'Does it bark?' )
+        q.no = no
 
         expect do
           q.save!
         end.                   to        raise_error( ActiveRecord::RecordInvalid,
-                                                      /No question should not be set if yes question is not set/ )
+                                                      /No should not be set if yes is not set/ )
       end
 
     end

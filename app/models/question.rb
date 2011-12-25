@@ -1,6 +1,6 @@
 class Question < ActiveRecord::Base
-  belongs_to :yes_question, :class_name => 'Question'
-  belongs_to :no_question,  :class_name => 'Question'
+  belongs_to :yes, :class_name => 'Question'
+  belongs_to :no,  :class_name => 'Question'
 
   validates :animal, :uniqueness => { :message => 'has already been added' }
   validates :phrase, :format => { :with => /\?$/, :message => 'should be a question' },
@@ -23,34 +23,34 @@ class Question < ActiveRecord::Base
 
   def phrase_and_questions
     if phrase.present?
-      if ! yes_question.present?
-        errors.add( :yes_question, 'should be set if a phrase is set' )
+      if ! yes.present?
+        errors.add( :yes, 'should be set if a phrase is set' )
       end
-      if ! no_question.present?
-        errors.add( :no_question, 'should be set if a phrase is set' )
+      if ! no.present?
+        errors.add( :no, 'should be set if a phrase is set' )
       end
     else
-      if yes_question.present?
-        errors.add( :yes_question, 'should not be set if a phrase is not set' )
+      if yes.present?
+        errors.add( :yes, 'should not be set if a phrase is not set' )
       end
-      if no_question.present?
-        errors.add( :no_question, 'should not be set if a phrase is not set' )
+      if no.present?
+        errors.add( :no, 'should not be set if a phrase is not set' )
       end
     end
   end
 
   def next_questions_valid
-    if yes_question.present?
-      if no_question.present?
-        if yes_question == no_question
-          errors.add( :yes_question, 'should be different to no question' )
+    if yes.present?
+      if no.present?
+        if yes == no
+          errors.add( :yes, 'should be different to no question' )
         end
       else
-        errors.add( :no_question, 'should be set if yes question is set' )
+        errors.add( :no, 'should be set if yes is set' )
       end
     else
-      if no_question.present?
-        errors.add( :no_question, 'should not be set if yes question is not set' )
+      if no.present?
+        errors.add( :no, 'should not be set if yes is not set' )
       end
     end
   end
