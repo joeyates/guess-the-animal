@@ -1,0 +1,8 @@
+lizard_question:
+  animal: 'Lizard'
+cat_question:
+  animal: 'Cat'
+root_question:
+  phrase: 'Is it a reptile?'
+  'yes': lizard_question
+  'no': cat_question

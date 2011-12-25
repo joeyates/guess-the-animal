@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Question do
 
+  fixtures :questions
+
   context 'associations' do
 
     context '#animal' do

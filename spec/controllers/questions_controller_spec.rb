@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe QuestionsController do
 
+  fixtures :questions
+
   context 'show' do
 
     before :each do

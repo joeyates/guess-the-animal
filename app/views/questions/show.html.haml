@@ -1,2 +1,7 @@
 %p
   = @question.phrase
+%ul
+  %li
+    = link_to( 'Yes', @question.yes )
+  %li
+    = link_to( 'No', @question.no )
