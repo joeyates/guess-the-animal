@@ -17,11 +17,11 @@ describe Question do
     context "#yes_question" do
 
       it 'should be settable' do
-        yes = Question.create!( :animal => 'Dog' )
-        no  = Question.create!( :animal => 'Cat' )
-        q = Question.create!( :phrase => 'Foo', :yes_question => yes, :no_question => no )
+        dog = Question.create!( :animal => 'Dog' )
+        cat = Question.create!( :animal => 'Cat' )
+        q = Question.create!( :phrase => 'Does it bark?', :yes_question => dog, :no_question => cat )
 
-        q.yes_question.should     == yes
+        q.yes_question.should     == dog
       end
 
       it "is nullable" do
@@ -35,11 +35,11 @@ describe Question do
     context "#no_question" do
 
       it 'should be settable' do
-        yes = Question.create!( :animal => 'Dog' )
-        no  = Question.create!( :animal => 'Cat' )
-        q  = Question.create!( :phrase => 'Foo', :yes_question => yes, :no_question => no )
+        dog = Question.create!( :animal => 'Dog' )
+        cat = Question.create!( :animal => 'Cat' )
+        q  = Question.create!( :phrase => 'Does it bark?', :yes_question => dog, :no_question => cat )
 
-        q.no_question.should     == no
+        q.no_question.should     == cat
       end
 
       it "is nullable" do
@@ -61,6 +61,16 @@ describe Question do
           Question.create!
         end.                   to        raise_error( ActiveRecord::RecordInvalid,
                                                       /Animal and phrase can't both be blank/ )
+      end
+
+      it 'should be a question' do
+        dog = Question.create!( :animal => 'Dog' )
+        cat = Question.create!( :animal => 'Cat' )
+
+        expect do
+          Question.create!( :phrase => 'Not a question', :yes_question => dog, :no_question => cat )
+        end.                   to        raise_error( ActiveRecord::RecordInvalid,
+                                                      /Phrase should be a question/ )
       end
 
     end

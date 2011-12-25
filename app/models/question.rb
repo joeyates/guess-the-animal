@@ -3,6 +3,8 @@ class Question < ActiveRecord::Base
   belongs_to :no_question,  :class_name => 'Question'
 
   validates :animal, :uniqueness => { :message => 'has already been added' }
+  validates :phrase, :format => { :with => /\?$/, :message => 'should be a question' },
+                     :allow_nil => true
   validate :animal_or_phrase
   validate :phrase_and_questions
   validate :next_questions_valid
